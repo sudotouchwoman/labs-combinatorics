@@ -8,7 +8,7 @@ void CountSpanningTrees(){
     via TLS (stands for Transposiotion with left shift)
     This algorithm iterates over set of all combinations for (m,n), where m is total number of digits, n is number of non-zero digits
     */
-    unsigned BinaryCombination = 7; // initial binary (000111), 3 out of 6
+    unsigned BinaryCombination = InitCombination(); // initial binary (000111), 3 out of 6
 
     for (unsigned i = 0; i < Combinations(TREE_EDGES, TOTAL_EDGES); ++i){
         if (!ContainsCycle(BinaryCombination)) PrintCombination(BinaryCombination, i+1);
@@ -43,11 +43,21 @@ void PrintCombination(unsigned BinCom, unsigned n_iter){
 }
 
 void PrintAsBinary(unsigned number, unsigned digits){
+    /*
+    Recursively print binary representation of a given number (add leading zeros if needed)
+    */
         if ( number >> 1 || digits) PrintAsBinary( number >> 1, --digits);
     putc( (number & 1) ? '1' : '0', stdout );
 }
 
 unsigned CountLeadingOnes(unsigned BinCom){
+    /*
+    Count leading ones of a given binary combination
+    Perform bitwise AND (&) and increment counter while got true
+
+    e.g.
+        (11000101) -> has 2 leading ones in a row
+    */
     unsigned i = 1 << (TOTAL_EDGES - 1);
     unsigned ones = 0;
     for ( ; i > 0 && (BinCom & i); i >>= 1){
@@ -57,6 +67,13 @@ unsigned CountLeadingOnes(unsigned BinCom){
 }
 
 unsigned CountZeros(unsigned BinCom){
+    /*
+    Count length of sequence of zeros which follows leading ones (needed to shift those ones later)
+    see CountLeadingOnes above
+
+    e.g.
+        (11000101) -> has 3 zeros in a row following 2 leading ones
+    */
     unsigned i = 1 << ( TOTAL_EDGES - CountLeadingOnes(BinCom) - 1);
     unsigned zeros = 0;
     for ( ; i > 0 && (~BinCom & i); i >>= 1) {
@@ -65,7 +82,23 @@ unsigned CountZeros(unsigned BinCom){
     return zeros;
 }
 
+unsigned InitCombination(){
+    unsigned combination = 0;
+    for (unsigned i = 0; i < TREE_EDGES; ++i)
+        combination |= (1 << i);
+    return combination;
+}
+
 unsigned TLS(unsigned BinCom){
+    /*
+    Return the next binary combination for a given one
+
+    The formula is as follows:
+        B' = B + (2^(n-E) - 2^n) + (2^(n-N+1) - 2^(n-N-E+1)) + 2^(n-N-E-1)
+
+    The first bracket removes leading ones, the second one adds them in the right place (does shift)
+    the last term performs transposition
+    */
     unsigned E = CountLeadingOnes(BinCom);
     unsigned N = CountZeros(BinCom);
     unsigned n = TOTAL_EDGES;
@@ -74,6 +107,14 @@ unsigned TLS(unsigned BinCom){
     return NewBinCom;
 }
 
-int ContainsCycle(unsigned BinCom){
-    return ( ((BinCom & 19)== 19) || ((BinCom & 41) == 41) || ((BinCom & 22) == 22) || ((BinCom & 44) == 44) );
+unsigned ContainsCycle(unsigned BinCom){
+    /*
+    Check if given binary combination contains cycle
+    (In my problem the cycle represents cycle in a graph)
+    */
+    return ( MatchesMask(BinCom, 19) || MatchesMask(BinCom, 41) || MatchesMask(BinCom, 22) || MatchesMask(BinCom, 44) );
+}
+
+unsigned MatchesMask(unsigned number, unsigned mask){
+    return (number & mask) == mask;
 }

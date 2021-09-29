@@ -13,5 +13,7 @@ void PrintAsBinary(unsigned number, unsigned digits);
 unsigned CountLeadingOnes(unsigned BinCom);
 unsigned CountZeros(unsigned BinCom);
 
+unsigned InitCombination();
 unsigned TLS(unsigned BinCom);
-int ContainsCycle(unsigned BinCom);
+unsigned ContainsCycle(unsigned BinCom);
+unsigned MatchesMask(unsigned number, unsigned mask);
