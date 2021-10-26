@@ -1,4 +1,3 @@
-#include <exception>
 #include "permutations.hpp"
 
 using namespace utils;
@@ -13,7 +12,10 @@ static void swap(size_t *a, size_t *b){
 }
 
 PermutationTraverser::PermutationTraverser(const size_t _n) : n(_n){
-    if (n == 0) return;
+    if (n == 0) {
+        std::cerr << "Attempt to create traverser over empty set, abort\n";
+        throw BAD_ITEMS;
+    }
     init_arrays(n);
 }
 
@@ -61,9 +63,9 @@ int PermutationTraverser::update_directions(const size_t m){
         direction *= CHANGE_SIGN;
     };
 
-    for (size_t i = m + 1; i < n + 1; ++i){
+    for (size_t i = m + 1; i < n + 1; ++i)
         change_direction(directions[i]);
-    }
+
     return EXIT_SUCCESS;
 }
 
@@ -88,15 +90,11 @@ void PermutationTraverser::print(std::ostream &out, const size_t n_iter){
     };
 
     auto write = [&](const size_t *arr){
-        for (size_t i = 1; i < n + 1; ++i){
-            out << arr[i];
-        }
-        out << " ";
+        for (size_t i = 1; i < n + 1; ++i)
+            out << arr[i] << " ";
     };
 
-    out << n_iter << ") P: ";
-    write(permutation);
-    out << "R: ";
-    write(reverse_permutation);
-    if (equal()) { out << "Are equal!" << '\n'; } else { out << '\n'; }
+    out << n_iter << ")\tP:  "; write(permutation);
+    out << "\tR:  "; write(reverse_permutation);
+    if (equal()) { out << "\tAre equal!" << '\n'; } else { out << '\n'; }
 }

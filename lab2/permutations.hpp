@@ -6,10 +6,13 @@ namespace utils{
     class PermutationTraverser;
     enum D{
         LEFT = -1,
-        NONE = 0,
-        RIGHT = 1,
+        NONE,
+        RIGHT,
         CHANGE_SIGN = -1,
-        MAX_ITEMS = 10
+        DEFAULT_ITEMS = 5,
+        MIN_ITEMS = 1,
+        MAX_ITEMS = 10,
+        BAD_ITEMS = -1
     };
 };
 
