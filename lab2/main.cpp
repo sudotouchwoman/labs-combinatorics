@@ -13,7 +13,7 @@ int main(int argc, char *argv[]){
         }
     }
     
-    auto Traverser = utils::PermutationTraverser(n);
+    auto Traverser = utils::PermutationEnumerator(n);
     Traverser.traverse();    
     
     return EXIT_SUCCESS;

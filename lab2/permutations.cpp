@@ -11,7 +11,7 @@ static void swap(size_t *a, size_t *b){
     return;
 }
 
-PermutationTraverser::PermutationTraverser(const size_t _n) : n(_n){
+PermutationEnumerator::PermutationEnumerator(const size_t _n) : n(_n){
     if (n == 0) {
         std::cerr << "Attempt to create traverser over empty set, abort\n";
         throw BAD_ITEMS;
@@ -19,13 +19,13 @@ PermutationTraverser::PermutationTraverser(const size_t _n) : n(_n){
     init_arrays(n);
 }
 
-PermutationTraverser::~PermutationTraverser(){
+PermutationEnumerator::~PermutationEnumerator(){
     delete [] directions;
     delete [] permutation;
     delete [] reverse_permutation;
 }
 
-int PermutationTraverser::init_arrays(const size_t n){
+int PermutationEnumerator::init_arrays(const size_t n){
     directions = new int[n+2];
     permutation = new size_t[n+2];
     reverse_permutation = new size_t[n+2];
@@ -39,25 +39,25 @@ int PermutationTraverser::init_arrays(const size_t n){
     return EXIT_SUCCESS;
 }
 
-const size_t PermutationTraverser::get_neighbour(const size_t j){
+const size_t PermutationEnumerator::get_neighbour(const size_t j){
     size_t i = reverse_permutation[j] + directions[j];
     return permutation[i];
 }
 
-const size_t PermutationTraverser::get_current_m(){
+const size_t PermutationEnumerator::get_current_m(){
     for (size_t i = n; i > 1; --i){
         if ( i > get_neighbour(i) ) return i;
     }
     return 1;
 }
 
-int PermutationTraverser::transpose(const size_t i, const size_t j){
+int PermutationEnumerator::transpose(const size_t i, const size_t j){
     swap(&permutation[ reverse_permutation[j] ], &permutation[ reverse_permutation[i] ]);
     swap(&reverse_permutation[j], &reverse_permutation[i]);
     return EXIT_SUCCESS;
 }
 
-int PermutationTraverser::update_directions(const size_t m){
+int PermutationEnumerator::update_directions(const size_t m){
 
     auto change_direction = [](int & direction){
         direction *= CHANGE_SIGN;
@@ -69,7 +69,7 @@ int PermutationTraverser::update_directions(const size_t m){
     return EXIT_SUCCESS;
 }
 
-void PermutationTraverser::traverse(){
+void PermutationEnumerator::traverse(){
 
     print(std::cout, 1);
     for (size_t m = get_current_m(), i = 2; m != 1; m = get_current_m(), ++i){
@@ -80,7 +80,7 @@ void PermutationTraverser::traverse(){
     return;
 }
 
-void PermutationTraverser::print(std::ostream &out, const size_t n_iter){
+void PermutationEnumerator::print(std::ostream &out, const size_t n_iter){
     
     auto equal = [&]() {
         for (size_t i = 1; i < n + 1; ++i){

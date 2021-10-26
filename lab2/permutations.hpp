@@ -3,7 +3,7 @@
 #include <iostream>
 
 namespace utils{
-    class PermutationTraverser;
+    class PermutationEnumerator;
     enum D{
         LEFT = -1,
         NONE,
@@ -16,7 +16,7 @@ namespace utils{
     };
 };
 
-class utils::PermutationTraverser{
+class utils::PermutationEnumerator{
 private:
     int *directions = nullptr;
     size_t *permutation = nullptr;
@@ -31,9 +31,9 @@ private:
     int update_directions(const size_t);
 
 public:
-    PermutationTraverser() = delete;
-    PermutationTraverser(const size_t);
-    ~PermutationTraverser();
+    PermutationEnumerator() = delete;
+    PermutationEnumerator(const size_t);
+    ~PermutationEnumerator();
     void traverse();
     void print(std::ostream & out, const size_t iter);
 };
