@@ -1,6 +1,6 @@
 #include <sstream>
 
-#include "gindenburg.hpp"
+#include "hindenburg.hpp"
 
 int main(int argc, char* argv[]) {
 
