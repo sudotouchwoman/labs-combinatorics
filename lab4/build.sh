@@ -1,0 +1,1 @@
+g++ gindenburg.cpp  main.cpp
