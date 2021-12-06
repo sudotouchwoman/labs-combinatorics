@@ -1,1 +1,1 @@
-g++ gindenburg.cpp  main.cpp
+g++ hindenburg.cpp  main.cpp
