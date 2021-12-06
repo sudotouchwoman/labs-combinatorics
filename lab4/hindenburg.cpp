@@ -44,7 +44,7 @@ bool Partition::next() {
 
     do {
 
-        // the Gindenburg's algorithm itself
+        // the Hindenburg's algorithm itself
         // is quite straightforward
         // first, try to locate the rightmost term
         // which differs with the last term for more than 2

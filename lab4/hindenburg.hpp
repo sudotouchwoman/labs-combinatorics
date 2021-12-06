@@ -3,7 +3,7 @@
 #include <vector>
 #include <iostream>
 
-// implements Gindenberg's algorithm for
+// implements Hindenburg's algorithm for
 // partition enumeration. Stores unsigned numbers in a vector. The size of
 // the vector can be computed from provided M and N. If no M specified, 
 // the default value of 1 is used (which implies that all partitions 
